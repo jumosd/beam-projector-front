@@ -1,7 +1,7 @@
 import "./App.css";
 
 function App() {
-  return <>안녕하세요</>;
+  return <>asdasd</>;
 }
 
 export default App;
