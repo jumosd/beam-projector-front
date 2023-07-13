@@ -54,7 +54,7 @@ table {
 body {
   font-weight: 300;
   font-family: 'Source Sans Pro', sans-serif;
-  color:${(props) => props.theme.textColor};
+  color:black;
   line-height: 1.2;
   
 }
