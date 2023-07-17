@@ -1,0 +1,22 @@
+/* 회원가입창 전체틀 */
+.signupbox {
+  margin: auto;
+  width: 500px;
+  height: auto;
+  border: 1px solid #000000;
+  border-radius: 20px;
+  padding: 30px;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.success {
+  color: green;
+}
+.error {
+  color: red;
+}
+.center {
+  display: flex;
+  justify-content: center;
+}
