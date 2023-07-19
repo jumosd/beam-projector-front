@@ -1,207 +1,187 @@
 import React, { useState, useRef } from "react";
+import styled from "styled-components";
+
 import "../styles/Signup.css";
 
 function SignupForm() {
-  // 입력받을 값
-  const [id, setId] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  //오류메시지 상태저장
-  const [idMessage, setIdMessage] = useState("");
-  const [emailMessage, setEmailMessage] = useState("");
-  const [passwordMessage, setPasswordMessage] = useState("");
-  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
-  // 유효성 검사
-  const [isId, setIsId] = useState(false);
-  const [isEmail, setIsEmail] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
-  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
-  //회원가입
-  const onSignup = async (e) => {
-    if (password === passwordConfirm) {
-      setPasswordMessage("비밀번호가 일치합니다");
-      setIsPassword(true);
+  //회원가입폼
+  const [signupForm, setSignupForm] = useState({
+    id: '',
+    name: '',
+    email: '',
+    password: '',
+    passwordconfirm: ''
+  })
+  //유효성 체크
+  const [empty, setEmpty] = useState(true)
+
+  const [isValid, setIsValid] = useState({
+    isId: true,
+    isName: true,
+    isEmail: true,
+    isPassword: true,
+    isPasswordconfirm: true
+  })
+
+  //에러메시지
+  const [message, setMessage] = useState('')
+
+  //ref들
+  const idRef = useRef()
+  const nameRef = useRef()
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const passwordConfirmRef = useRef()
+
+  //인풋 입력 부분
+  const inputHandler = (ref, formKey) => {
+    setSignupForm({
+      ...signupForm,
+      [formKey]: ref.current.value
+    })
+  }
+
+
+  const Clickkkk = () => {
+    if (signupForm.id.trim() === '' ||
+      signupForm.name.trim() === '' ||
+      signupForm.password.trim() === '' ||
+      signupForm.passwordconfirm.trim() === '' ||
+      signupForm.email.trim() === '') {
+      setEmpty(false)
+    } else if (signupForm.id.length < 4 || signupForm.id.length > 16) {
+
     } else {
-      setPasswordMessage("비밀번호가 달라요 !!");
-      setIsPassword(false);
-      return;
-    }
-  };
 
-  // 아이디
-  const onChangeId = (e) => {
-    setId(e.target.value);
-    if (e.target.value.length < 2 || e.target.value.length > 8) {
-      setIdMessage("2글자 이상 8글자 미만으로 입력해주세요.");
-      setIsId(false);
-    } else {
-      setIdMessage("올바른 이름 형식입니다 :)");
-      setIsId(true);
-    }
-  };
-
-  // 아이디중복 확인
-  const idCheck = async (e) => {
-    if (isId) {
-      const res = await fetch("/loginCheck", {
-        method: "post",
-        body: JSON.stringify(id),
-      });
-
-      const data = await res.json();
-      if (data.status === 200) {
-        setIdMessage("사용할수있는 아이디에요");
-        setIsId(true);
-      } else {
-        setIdMessage("중복된 아이디에요!!");
-        setIsId(false);
-      }
-
-      return;
-    } else {
-      setIdMessage("글자수를 맞춰주세요 ");
-    }
-  };
-
-  const emailCheck = async (e) => {
-    let test = email.split("@");
-    console.log(test);
-    if (email.split("@")) {
-      setIsEmail(true);
-      setEmailMessage("올바른 이메일 형식입니다");
-    } else {
-      setEmail("");
-      setEmailMessage("올바른 이메일 형식이 아니에요!!");
-      setIsEmail(false);
-      return;
+      setEmpty(true)
     }
 
-    return;
-  };
 
-  //이메일 입력
-  const inputEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  //패스워드 입력
-  const inputPassword = (e) => {
-    setPassword(e.target.value);
-  };
-  // 패스워드 확인 입력
-  const passwordCheck = (e) => {
-    setPasswordConfirm(e.target.value);
-  };
-
+  }
   // 렌더링될부분 //
   return (
     <>
-      <div className="signupbox">
-        <div className="mb-3 ">
-          <label htmlFor="signup_input_id" className="form-label">
-            아이디
-          </label>
+      <SignupContainer >
+        <SignupTitle>JOIN</SignupTitle>
+        {empty === false ? <IsValidDiv>빈칸이 있어요 다시 입력 해주세요</IsValidDiv> : <IsValidDiv>ㅇㅇㅇ</IsValidDiv>}
+        <InputBox>
+          <Label htmlFor="input_id">아이디<Required>*</Required></Label>
+          <Input type="text" ref={idRef} id="input_id" onChange={() => inputHandler(idRef, "id")}></Input>
+          <InputRightSpace>(영문소문자/숫자,4~16자)</InputRightSpace>
+        </InputBox>
 
-          <input
-            onChange={onChangeId}
-            type="text"
-            className="form-control"
-            id="signup_input_id"
-            name="signup_input_id"
-            placeholder="2글자 이상 8글자 미만으로 입력해주세요."
-          />
-          <div>
-            {id.length > 0 && (
-              <span className={`${isId ? "success" : "error"}`}>
-                {idMessage}
-              </span>
-            )}
-            <button
-              onClick={idCheck}
-              type="button"
-              className="btn btn-outline-dark"
-            >
-              중복확인
-            </button>
-          </div>
-        </div>
-        <div className="mb-3 ">
-          <label htmlFor="signup_input_email" className="form-label">
-            이메일
-          </label>
-          <input
-            onChange={inputEmail}
-            type="text"
-            className="form-control"
-            id="signup_input_email"
-            name="signup_input_email"
-            placeholder="이메일을 입력해주세요"
-          />
-          <span className={`${isEmail ? "success" : "error"}`}>
-            {emailMessage}
-          </span>
-          <button
-            onClick={emailCheck}
-            type="button"
-            className="btn btn-outline-dark"
-          >
-            중복확인
-          </button>
-        </div>
-        <div className="mb-3 ">
-          <label htmlFor="signup_input_pw" className="form-label">
-            비밀번호
-          </label>
-          <input
-            onKeyUp={inputPassword}
-            type="password"
-            className="form-control"
-            id="signup_input_pw"
-            name="signup_input_pw"
-            placeholder="비밀번호를 입력해주세요"
-          />
-          {password.length > 0 && (
-            <span className={`${isPassword ? "success" : "error"}`}>
-              {passwordMessage}
-            </span>
-          )}
-        </div>
-        <div className="mb-3 ">
-          <label htmlFor="signup_input_pwConfirm" className="form-label">
-            비밀번호 확인
-          </label>
-          <input
-            onKeyUp={passwordCheck}
-            type="password"
-            className="form-control"
-            id="signup_input_pwConfirm"
-            name="signup_input_pwConfirm"
-            placeholder="비밀번호를 다시 입력해주세요"
-          />
-        </div>
-        {password.length > 0 && (
-          <span className={`${isPassword ? "success" : "error"}`}>
-            {passwordMessage}
-          </span>
-        )}
 
-        <div>
-          <button type="button" className="btn btn-secondary btn-lg">
-            뒤로가기
-          </button>
-          <button
-            onClick={onSignup}
-            type="button"
-            className="btn btn-primary btn-lg"
-          >
-            회원가입 하기
-          </button>
-        </div>
-      </div>
+        <InputBox>
+          <Label htmlFor="input_name">이름<Required>*</Required></Label>
+          <Input type="text" ref={nameRef} id="input_name" onChange={() => inputHandler(nameRef, "name")}></Input>
+          <InputRightSpace></InputRightSpace>
+        </InputBox>
+
+        <InputBox>
+          <Label htmlFor="input_email">이메일<Required>*</Required></Label>
+          <Input type="email" ref={emailRef} id="input_email" onChange={() => inputHandler(emailRef, "email")}></Input>
+          <InputRightSpace></InputRightSpace>
+        </InputBox>
+
+        <InputBox>
+          <Label htmlFor="password">비밀번호<Required>*</Required></Label>
+          <Input type="password" ref={passwordRef} id="password" onChange={() => inputHandler(passwordRef, "password")}></Input>
+          <InputRightSpace></InputRightSpace>
+        </InputBox>
+
+        <InputBox>
+          <Label htmlFor="confirmPassword">비밀번호확인<Required>*</Required></Label>
+          <Input type="password" ref={passwordConfirmRef} id="confirmPassword" onChange={() => inputHandler(passwordConfirmRef, "passwordconfirm")}></Input>
+          <InputRightSpace></InputRightSpace>
+        </InputBox>
+
+        <FlexDiv>
+          <GoBackButton>뒤로가기</GoBackButton>
+          <SingupButton onClick={Clickkkk}>회원가입</SingupButton>
+        </FlexDiv>
+      </SignupContainer >
     </>
   );
 }
 
 export default SignupForm;
+
+
+const SignupContainer = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+const SignupTitle = styled.div`
+  margin: 2rem 0;
+  font-size: 2rem;
+  font-weight: 400;
+  
+`
+
+const InputBox = styled.div`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+    height: auto;
+    padding: 1rem 1rem 2rem 1rem;
+    border-bottom: 1px solid #cfcfcf;
+`
+
+const Input = styled.input`
+width: 300px;
+height: auto;
+margin-left: 2rem;
+margin-right: 0.5rem;
+border: 1px solid #cfcfcf;
+`
+const Label = styled.label`
+    width: 100px;
+`
+const InputRightSpace = styled.div`
+  width: 200px;
+`
+
+const Required = styled.span`
+  color: red;
+`
+const GoBackButton = styled.button`
+  font-size: 1.3rem;
+  margin-top: 1rem;
+  width: 200px;
+  padding: 0.6rem;
+  border: 1px solid #cfcfcf;
+  background-color: white;
+`
+
+const SingupButton = styled.button`
+  font-size: 1.3rem;
+  margin-top: 1rem;
+  margin-left: 3rem;
+  width: 200px;
+  padding: 0.6rem;
+  border: 1px solid #cfcfcf;
+  background-color: #c8fffb;
+  transition: all 0.3s ease-out; ;
+  &:hover{
+    background-color: #9ec3f9;
+  }
+`
+
+
+
+const FlexDiv = styled.div`
+  margin: auto;
+  display: flex;
+  
+`
+const IsValidDiv = styled.div`
+  color: #fa8a8a;
+  font-size: 1.5rem;
+  font-weight: 600;
+`
