@@ -14,7 +14,8 @@ function SignupForm() {
     passwordconfirm: ''
   })
   //유효성 체크
-  const [empty, setEmpty] = useState(true)
+  const [isEmpty, setIsEmpty] = useState(false)
+  const [isPassswordCheck, setIsPasswordCheck] = useState(false)
 
   const [isValid, setIsValid] = useState({
     isId: true,
@@ -42,6 +43,11 @@ function SignupForm() {
     })
   }
 
+  function oneSecoundSleep() {
+    setIsEmpty(false)
+    setIsPasswordCheck(false)
+  }
+
 
   const Clickkkk = () => {
     if (signupForm.id.trim() === '' ||
@@ -49,14 +55,16 @@ function SignupForm() {
       signupForm.password.trim() === '' ||
       signupForm.passwordconfirm.trim() === '' ||
       signupForm.email.trim() === '') {
-      setEmpty(false)
-    } else if (signupForm.id.length < 4 || signupForm.id.length > 16) {
-
-    } else {
-
-      setEmpty(true)
+      setIsEmpty(true)
+      setTimeout(oneSecoundSleep, 2000)
     }
 
+    const pattern = /[~!@#$%^&*()_+|<>?:{}]/;	// 특수문자
+    console.log(pattern.test(signupForm.password))
+    if (signupForm.password.length < 2 || !pattern.test(signupForm.password)) {
+      setIsPasswordCheck(true)
+      setTimeout(oneSecoundSleep, 2000)
+    }
 
   }
   // 렌더링될부분 //
@@ -64,7 +72,8 @@ function SignupForm() {
     <>
       <SignupContainer >
         <SignupTitle>JOIN</SignupTitle>
-        {empty === false ? <IsValidDiv>빈칸이 있어요 다시 입력 해주세요</IsValidDiv> : <IsValidDiv>ㅇㅇㅇ</IsValidDiv>}
+        {isEmpty === true ? <IsValidDiv>빈칸이 있어요 다시 입력 해주세요</IsValidDiv> : null}
+        {isPassswordCheck === true ? <IsValidDiv>비밀번호를 다시 입력해주세요</IsValidDiv> : null}
         <InputBox>
           <Label htmlFor="input_id">아이디<Required>*</Required></Label>
           <Input type="text" ref={idRef} id="input_id" onChange={() => inputHandler(idRef, "id")}></Input>
@@ -87,13 +96,13 @@ function SignupForm() {
         <InputBox>
           <Label htmlFor="password">비밀번호<Required>*</Required></Label>
           <Input type="password" ref={passwordRef} id="password" onChange={() => inputHandler(passwordRef, "password")}></Input>
-          <InputRightSpace></InputRightSpace>
+          <InputRightSpace>2자이상 특수문자포함</InputRightSpace>
         </InputBox>
 
         <InputBox>
           <Label htmlFor="confirmPassword">비밀번호확인<Required>*</Required></Label>
           <Input type="password" ref={passwordConfirmRef} id="confirmPassword" onChange={() => inputHandler(passwordConfirmRef, "passwordconfirm")}></Input>
-          <InputRightSpace></InputRightSpace>
+          <InputRightSpace>2자이상 특수문자 포함</InputRightSpace>
         </InputBox>
 
         <FlexDiv>
@@ -135,7 +144,7 @@ const InputBox = styled.div`
 
 const Input = styled.input`
 width: 300px;
-height: auto;
+height: 30px;
 margin-left: 2rem;
 margin-right: 0.5rem;
 border: 1px solid #cfcfcf;
