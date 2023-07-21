@@ -3,6 +3,24 @@ import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+
+  const navigate = useNavigate()
+
+  const [idFocus, setIdFocus] = useState(false)
+  const [passwordfocus, setPassWordFocus] = useState(false)
+  //아이디인풋창을 클릭하면 아이콘사라지게하기
+  const inputIdFocus = () => setIdFocus(true)
+  const inputIdBlur = () => setIdFocus(false)
+
+  //패스워드인풋창을 클릭하면 아이콘 사라지게 하기
+  const inputPassWordFocus = () => setPassWordFocus(true)
+  const inputPassWordBlur = () => setPassWordFocus(false)
+
+  //useNavigate
+  const goToSignUp = () => {
+    navigate("/signup")
+  }
+
   return (
     <>
       <LoginContainer >
@@ -12,9 +30,23 @@ function LoginForm() {
         <InputBox>
 
           <FlexDiv >
+            {idFocus === false ?
+              <InputIconIdDiv>
+                <InputIconImage src="/src/assets/user.svg"></InputIconImage>
+                <InputIconText>ID</InputIconText>
+              </InputIconIdDiv> : ''
+            }
+            <Input onFocus={inputIdFocus} onBlur={inputIdBlur} />
           </FlexDiv>
 
           <FlexDiv>
+            {passwordfocus === false ?
+              <InputIconPassWordDiv>
+                <InputIconImage src="/src/assets/lock.svg"></InputIconImage>
+                <InputIconText>password</InputIconText>
+              </InputIconPassWordDiv> : ''
+            }
+            <Input onFocus={inputPassWordFocus} onBlur={inputPassWordBlur} />
           </FlexDiv>
 
           <ForgetIdPassword>
@@ -29,9 +61,6 @@ function LoginForm() {
         </InputBox>
 
         <InputBox>
-          <Label htmlFor="input_id">아이디<Required>*</Required></Label>
-          <Input type="text" ref={idRef} id="input_id" onChange={() => inputHandler(idRef, "id")}></Input>
-          <InputRightSpace>(영문소문자/숫자,4~16자)</InputRightSpace>
           <GoToSignUpDiv>
             <div>더 많은 혜택, 아직 회원이 아니시라면?</div>
             <SignUpButton onClick={goToSignUp}>회원가입</SignUpButton>
