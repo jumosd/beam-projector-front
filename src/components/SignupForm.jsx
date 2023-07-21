@@ -5,6 +5,7 @@ import "../styles/Signup.css";
 
 function SignupForm() {
 
+
   //회원가입폼
   const [signupForm, setSignupForm] = useState({
     id: '',
@@ -67,47 +68,52 @@ function SignupForm() {
     }
 
   }
+
   // 렌더링될부분 //
   return (
     <>
       <SignupContainer >
-        <SignupTitle>JOIN</SignupTitle>
-        {isEmpty === true ? <IsValidDiv>빈칸이 있어요 다시 입력 해주세요</IsValidDiv> : null}
-        {isPassswordCheck === true ? <IsValidDiv>비밀번호를 다시 입력해주세요</IsValidDiv> : null}
-        <InputBox>
-          <Label htmlFor="input_id">아이디<Required>*</Required></Label>
-          <Input type="text" ref={idRef} id="input_id" onChange={() => inputHandler(idRef, "id")}></Input>
-          <InputRightSpace>(영문소문자/숫자,4~16자)</InputRightSpace>
-        </InputBox>
-
-
-        <InputBox>
-          <Label htmlFor="input_name">이름<Required>*</Required></Label>
-          <Input type="text" ref={nameRef} id="input_name" onChange={() => inputHandler(nameRef, "name")}></Input>
-          <InputRightSpace></InputRightSpace>
-        </InputBox>
-
-        <InputBox>
-          <Label htmlFor="input_email">이메일<Required>*</Required></Label>
-          <Input type="email" ref={emailRef} id="input_email" onChange={() => inputHandler(emailRef, "email")}></Input>
-          <InputRightSpace></InputRightSpace>
-        </InputBox>
-
-        <InputBox>
-          <Label htmlFor="password">비밀번호<Required>*</Required></Label>
-          <Input type="password" ref={passwordRef} id="password" onChange={() => inputHandler(passwordRef, "password")}></Input>
-          <InputRightSpace>2자이상 특수문자포함</InputRightSpace>
-        </InputBox>
-
-        <InputBox>
-          <Label htmlFor="confirmPassword">비밀번호확인<Required>*</Required></Label>
-          <Input type="password" ref={passwordConfirmRef} id="confirmPassword" onChange={() => inputHandler(passwordConfirmRef, "passwordconfirm")}></Input>
-          <InputRightSpace>2자이상 특수문자 포함</InputRightSpace>
-        </InputBox>
 
         <FlexDiv>
-          <GoBackButton>뒤로가기</GoBackButton>
-          <SingupButton onClick={Clickkkk}>회원가입</SingupButton>
+          <SignupTitle>JOIN</SignupTitle>
+          {isEmpty === true ? <IsValidDiv>빈칸이 있어요 다시 입력 해주세요</IsValidDiv> : null}
+          {isPassswordCheck === true ? <IsValidDiv>비밀번호를 다시 입력해주세요</IsValidDiv> : null}
+          <InputBox>
+            <Label htmlFor="input_id">아이디<Required>*</Required></Label>
+            <Input type="text" ref={idRef} id="input_id" onChange={(e) => inputHandler(idRef, "id")}></Input>
+            <InputRightSpace>(영문소문자/숫자,4~16자)</InputRightSpace>
+          </InputBox>
+
+
+          <InputBox>
+            <Label htmlFor="input_name">이름<Required>*</Required></Label>
+            <Input type="text" ref={nameRef} id="input_name" onChange={() => inputHandler(nameRef, "name")}></Input>
+            <InputRightSpace></InputRightSpace>
+          </InputBox>
+
+          <InputBox>
+            <Label htmlFor="input_email">이메일<Required>*</Required></Label>
+            <Input type="email" ref={emailRef} id="input_email" onChange={() => inputHandler(emailRef, "email")}></Input>
+            <InputRightSpace></InputRightSpace>
+          </InputBox>
+
+          <InputBox>
+            <Label htmlFor="password">비밀번호<Required>*</Required></Label>
+            <Input type="password" ref={passwordRef} id="password" onChange={() => inputHandler(passwordRef, "password")}></Input>
+            <InputRightSpace>2자이상 특수문자포함</InputRightSpace>
+          </InputBox>
+
+          <InputBox>
+            <Label htmlFor="confirmPassword">비밀번호확인<Required>*</Required></Label>
+            <Input type="password" ref={passwordConfirmRef} id="confirmPassword" onChange={() => inputHandler(passwordConfirmRef, "passwordconfirm")}></Input>
+            <InputRightSpace>2자이상 특수문자 포함</InputRightSpace>
+          </InputBox>
+
+          <InputBox>
+            <GoBackButton>뒤로가기</GoBackButton>
+            <SingupButton onClick={Clickkkk}>회원가입</SingupButton>
+          </InputBox>
+
         </FlexDiv>
       </SignupContainer >
     </>
@@ -124,9 +130,10 @@ const SignupContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  
 `
 const SignupTitle = styled.div`
-  margin: 2rem 0;
+  margin: 2rem auto;
   font-size: 2rem;
   font-weight: 400;
   
@@ -136,10 +143,10 @@ const InputBox = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 80%;
+    width: 100%;
     height: auto;
-    padding: 1rem 1rem 2rem 1rem;
-    border-bottom: 1px solid #cfcfcf;
+    padding: 1rem 1rem 1rem 1rem;
+
 `
 
 const Input = styled.input`
@@ -166,6 +173,10 @@ const GoBackButton = styled.button`
   padding: 0.6rem;
   border: 1px solid #cfcfcf;
   background-color: white;
+   transition: all 0.1s ease-out; ;
+  &:hover{
+    scale: 1.1;
+  }
 `
 
 const SingupButton = styled.button`
@@ -174,11 +185,11 @@ const SingupButton = styled.button`
   margin-left: 3rem;
   width: 200px;
   padding: 0.6rem;
-  border: 1px solid #cfcfcf;
-  background-color: #c8fffb;
-  transition: all 0.3s ease-out; ;
+  color: white;
+  background-color: #000000;
+  transition: all 0.1s ease-out; ;
   &:hover{
-    background-color: #9ec3f9;
+    scale: 1.1;
   }
 `
 
@@ -187,9 +198,11 @@ const SingupButton = styled.button`
 const FlexDiv = styled.div`
   margin: auto;
   display: flex;
+  flex-direction:column;
   
 `
 const IsValidDiv = styled.div`
+margin: auto;
   color: #fa8a8a;
   font-size: 1.5rem;
   font-weight: 600;
