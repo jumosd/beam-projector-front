@@ -1,27 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   return (
     <>
-      ㅁㄴㅇㄹㅁㄴㅇㄹ
-      <SignupContainer >
-        <SignupTitle>JOIN</SignupTitle>
+      <LoginContainer >
+
+        <SignupTitle>LOGIN</SignupTitle>
+
+        <InputBox>
+
+          <FlexDiv >
+          </FlexDiv>
+
+          <FlexDiv>
+          </FlexDiv>
+
+          <ForgetIdPassword>
+            <div>
+              <input type="checkbox" /> 보안접속
+            </div>
+
+            <div> 아이디찾기 /비밀번호찾기</div>
+          </ForgetIdPassword>
+
+          <LoginButton>로그인</LoginButton>
+        </InputBox>
+
         <InputBox>
           <Label htmlFor="input_id">아이디<Required>*</Required></Label>
           <Input type="text" ref={idRef} id="input_id" onChange={() => inputHandler(idRef, "id")}></Input>
           <InputRightSpace>(영문소문자/숫자,4~16자)</InputRightSpace>
+          <GoToSignUpDiv>
+            <div>더 많은 혜택, 아직 회원이 아니시라면?</div>
+            <SignUpButton onClick={goToSignUp}>회원가입</SignUpButton>
+          </GoToSignUpDiv>
         </InputBox>
-      </SignupContainer >
-    </>)
-}
+      </LoginContainer >
+    </>
+  )
 
+}
 export default LoginForm;
 
 
 
-const SignupContainer = styled.div`
-    width: 100%;
+const LoginContainer = styled.div`
+    margin: auto;
+    width: 1200px;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -37,7 +64,8 @@ const SignupTitle = styled.div`
 
 const InputBox = styled.div`
     display: flex;
-    justify-content: space-around;
+    flex-direction:column;
+    justify-content: center;
     align-items: center;
     width: 80%;
     height: auto;
@@ -46,10 +74,9 @@ const InputBox = styled.div`
     `
 
 const Input = styled.input`
-    width: 300px;
-    height: 30px;
-    margin-left: 2rem;
-    margin-right: 0.5rem;
+    width: 450px;
+    height: 50px;
+
     border: 1px solid #cfcfcf;
     `
 const Label = styled.label`
@@ -71,26 +98,96 @@ const GoBackButton = styled.button`
     background-color: white;
     `
 
-const SingupButton = styled.button`
-    font-size: 1.3rem;
+const LoginButton = styled.button`
+    font-size: 1.5rem;
     margin-top: 1rem;
-    margin-left: 3rem;
-    width: 200px;
+    width: 450px;
     padding: 0.6rem;
-    border: 1px solid #cfcfcf;
-    background-color: #c8fffb;
-    transition: all 0.3s ease-out;
-    `
+    color: white;
+    background-color: #000000;
+    transition: all 0.1s ease-out; ;
+  &:hover{
+    scale: 1.1;
+  }
+  `
+const SignUpButton = styled.button`
+font-size: 1.5rem;
+margin-top: 1rem;
+width: 450px;
+height: 100px;
+padding: 0.6rem;
+color: #000000;
+background-color: #f6f6f6;
+transition: all 0.1s ease-out; ;
+
+&:hover{
+scale: 1.1;
+}
+`
+
+const GoToSignUpDiv = styled.div`
+text-align: center;
+font-size: 1.5rem;
+margin-top: 1rem;
+width: 450px;
+height: 150px;
+padding: 0.6rem;
+color: #000000;
+background-color: #ffffff;
+transition: all 0.1s ease-out; ;
+
+`
 
 
 
 const FlexDiv = styled.div`
     margin: auto;
     display: flex;
-
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
     `
+const ForgetIdPassword = styled.div`
+width: 450px;
+margin: auto;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: 2rem;
+`
+const InputIconIdDiv = styled.div`
+width: 0px;
+position: relative;
+left: 40px;
+margin: auto;
+display: flex;
+justify-content: center;
+align-items: center;
+`
+const InputIconPassWordDiv = styled.div`
+width: 0px;
+position: relative;
+left: 60px;
+margin: auto;
+display: flex;
+justify-content: center;
+align-items: center;
+`
+
+const InputIconText = styled.div`
+  font-size: 1rem;
+`
+
 const IsValidDiv = styled.div`
     color: #fa8a8a;
     font-size: 1.5rem;
     font-weight: 600;
     `
+
+const InputIconImage = styled.img`
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  
+`
