@@ -7,8 +7,8 @@ import Ranking from "./pages/Ranking";
 import Main from "./components/Main/Main";
 import About from "./pages/About";
 import Board from "./pages/Board";
-import LoginForm from "./components/LoginForm";
-import SignupForm from "./components/SignupForm";
+import LoginForm from "./pages/LoginForm";
+import SignupForm from "./pages/SignupForm";
 
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
       element: <Ranking />,
     },
   ];
-
+  //로그인이 되었을때만 UI를 보고 접근가능하게 하기
   return (
     <>
       <Header />

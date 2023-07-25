@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,8 @@ function LoginForm() {
 
   const [idFocus, setIdFocus] = useState(false)
   const [passwordfocus, setPassWordFocus] = useState(false)
+
+
   //아이디인풋창을 클릭하면 아이콘사라지게하기
   const inputIdFocus = () => setIdFocus(true)
   const inputIdBlur = () => setIdFocus(false)
@@ -21,15 +23,21 @@ function LoginForm() {
     navigate("/signup")
   }
 
+  //아이디랑 패스워드
+  const idRef = useRef()
+  const passwordRef = useRef()
 
   // 로그인요청하기??
-  //
+  const Login = () => {
+    console.log(idRef.current.value)
+    console.log(passwordRef.current.value)
+
+  }
+
   return (
     <>
       <LoginContainer >
-
         <SignupTitle>LOGIN</SignupTitle>
-
         <InputBox>
 
           <FlexDiv >
@@ -39,7 +47,7 @@ function LoginForm() {
                 <InputIconText>ID</InputIconText>
               </InputIconIdDiv> : ''
             }
-            <Input onFocus={inputIdFocus} onBlur={inputIdBlur} />
+            <Input ref={idRef} onFocus={inputIdFocus} onBlur={inputIdBlur} />
           </FlexDiv>
 
           <FlexDiv>
@@ -49,7 +57,7 @@ function LoginForm() {
                 <InputIconText>password</InputIconText>
               </InputIconPassWordDiv> : ''
             }
-            <Input onFocus={inputPassWordFocus} onBlur={inputPassWordBlur} />
+            <Input ref={passwordRef} type="password" onFocus={inputPassWordFocus} onBlur={inputPassWordBlur} />
           </FlexDiv>
 
           <ForgetIdPassword>
@@ -60,7 +68,7 @@ function LoginForm() {
             <div> 아이디찾기 /비밀번호찾기</div>
           </ForgetIdPassword>
 
-          <LoginButton>로그인</LoginButton>
+          <LoginButton onClick={Login}>로그인</LoginButton>
         </InputBox>
 
         <InputBox>
@@ -108,7 +116,6 @@ const InputBox = styled.div`
 const Input = styled.input`
     width: 450px;
     height: 50px;
-
     border: 1px solid #cfcfcf;
     `
 const Label = styled.label`
