@@ -1,19 +1,28 @@
 import styled from "styled-components";
 import Title from "../components/common/Title";
+import Card from "../components/Card";
 
 const Home = () => {
   return (
-    <HomeWrapper>
+    <>
       <Title>Projects</Title>
-    </HomeWrapper>
+      <CardSection>
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+      </CardSection>
+    </>
   );
 };
 
 export default Home;
 
-const HomeWrapper = styled.div`
-  margin: 80px 8vw 80px 8vw;
+const CardSection = styled.section`
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 1200px;
+  margin-top: 130px;
+  flex-wrap: wrap;
 `;

@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Header from "./components/Header/Header";
 import Ranking from "./pages/Ranking";
 import Main from "./components/Main/Main";
+import About from "./pages/About";
+import Board from "./pages/Board";
 
 function App() {
   const router = [
@@ -15,6 +17,14 @@ function App() {
     {
       path: "/signup",
       // element: <Signup />
+    },
+    {
+      path: "/about",
+      element: <About />,
+    },
+    {
+      path: "/board",
+      element: <Board />,
     },
     {
       path: "/ranking",

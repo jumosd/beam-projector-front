@@ -3,7 +3,7 @@ import styled from "styled-components";
 const NavIcon = ({ children }) => {
   return (
     <IconWrapper>
-      <a>{children}</a>
+      <i>{children}</i>
     </IconWrapper>
   );
 };
