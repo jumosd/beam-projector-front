@@ -1,5 +1,7 @@
+import Title from "../components/common/Title";
+
 const Ranking = () => {
-  return <>랭킹 페이지</>;
+  return <Title>Ranking</Title>;
 };
 
 export default Ranking;
