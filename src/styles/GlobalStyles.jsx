@@ -32,6 +32,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
+  background-color: white;
 }
 menu, ol, ul {
   list-style: none;
@@ -40,7 +41,7 @@ blockquote, q {
   quotes: none;
 }
 blockquote:before, blockquote:after,
-q:before, q:after {
+q:before, q:after { 
   content: '';
   content: none;
 }
@@ -53,7 +54,7 @@ table {
 }
 body {
   font-weight: 300;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Open Sans','Noto Sans KR','Malgun Gothic';
   color:black;
   line-height: 1.2;
   
