@@ -3,7 +3,6 @@ import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
-
   const navigate = useNavigate()
 
   const [idFocus, setIdFocus] = useState(false)
@@ -12,27 +11,62 @@ function LoginForm() {
 
   //아이디인풋창을 클릭하면 아이콘사라지게하기
   const inputIdFocus = () => setIdFocus(true)
-  const inputIdBlur = () => setIdFocus(false)
+  const inputIdBlur = () => {
+    if (idRef.current.value === '') {
+      setIdFocus(false)
+    } else {
+      setIdFocus(true)
+    }
+  }
 
   //패스워드인풋창을 클릭하면 아이콘 사라지게 하기
   const inputPassWordFocus = () => setPassWordFocus(true)
-  const inputPassWordBlur = () => setPassWordFocus(false)
+  const inputPassWordBlur = () => {
+    if (passwordRef.current.value === '') {
+      setPassWordFocus(false)
+    } else {
+      setPassWordFocus(true)
+    }
+  }
 
   //useNavigate
   const goToSignUp = () => {
     navigate("/signup")
   }
 
+
+
   //아이디랑 패스워드
   const idRef = useRef()
   const passwordRef = useRef()
 
-  // 로그인요청하기??
+  // 로그인요청하기
   const Login = () => {
     console.log(idRef.current.value)
     console.log(passwordRef.current.value)
 
+    axios.post('/login', {
+      memberId: idRef.current.value,
+      password: passwordRef.current.value,
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }
+    )
+      .then(function (response) {
+        console.log(response);
+        localStorage.setItem('access_token', response.data.token)
+        navigate("/")
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   }
+
+
+
 
   return (
     <>
@@ -41,12 +75,13 @@ function LoginForm() {
         <InputBox>
 
           <FlexDiv >
-            {idFocus === false ?
+            {!idFocus ?
               <InputIconIdDiv>
                 <InputIconImage src="/src/assets/user.svg"></InputIconImage>
                 <InputIconText>ID</InputIconText>
               </InputIconIdDiv> : ''
             }
+
             <Input ref={idRef} onFocus={inputIdFocus} onBlur={inputIdBlur} />
           </FlexDiv>
 
