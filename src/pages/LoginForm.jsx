@@ -1,8 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import AuthContext from "../context/AuthContext";
+
 
 function LoginForm() {
+
+  const authContextValue = useContext(AuthContext)
+
   const navigate = useNavigate()
 
   const [idFocus, setIdFocus] = useState(false)
@@ -58,6 +64,9 @@ function LoginForm() {
         console.log(response);
         localStorage.setItem('access_token', response.data.token)
         navigate("/")
+
+        authContextValue.isLoggedin = true
+        console.log('로그인폼에서 ', authContextValue.isLoggedin)
       })
       .catch(function (error) {
         console.log(error);
