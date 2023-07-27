@@ -22,34 +22,27 @@ const Ranking = () => {
       }
     }, [])
 
-  console.log(authContextValue.isLoggedin)
-  if (authContextValue.isLoggedin) {
-    return (
-      <>
-        <Title>Ranking</Title>;
-        <FirstRank>
-          <FirstGrade src={fistgrade} />
-          <FirstRankImage src="https://i.namu.wiki/i/pkJeMQAe4Fo6MdOZ6MMnDjy19pjW25K7ZER3ZOs_2HO4PRBa4_SIGUVKUgdj5awSCxQN3IEgyG2Mr6VC4nePVg.gif"></FirstRankImage>
-          <FirstRankDescription>
-            <FirstRankDescription_list>프로젝트이름</FirstRankDescription_list>
-            <FirstRankDescription_list>팀이름</FirstRankDescription_list>
-            <FirstRankDescription_list>좋아요수</FirstRankDescription_list>
-          </FirstRankDescription>
-          <CreateAt>
-            2020.02.13
-          </CreateAt>
-        </FirstRank >
-        <RankList></RankList>
-      </>
-    )
-  } else {
-    return (
-      <>
-        <Title>Ranking</Title>
-        <Title>로그인 하세요!</Title>
-      </>
-    )
-  }
+
+
+  return (
+    <>
+      <Title>Ranking</Title>;
+      <FirstRank>
+        <FirstGrade src={fistgrade} />
+        <FirstRankImage src="https://i.namu.wiki/i/pkJeMQAe4Fo6MdOZ6MMnDjy19pjW25K7ZER3ZOs_2HO4PRBa4_SIGUVKUgdj5awSCxQN3IEgyG2Mr6VC4nePVg.gif"></FirstRankImage>
+        <FirstRankDescription>
+          <FirstRankDescription_list>프로젝트이름</FirstRankDescription_list>
+          <FirstRankDescription_list>팀이름</FirstRankDescription_list>
+          <FirstRankDescription_list>좋아요수</FirstRankDescription_list>
+        </FirstRankDescription>
+        <CreateAt>
+          2020.02.13
+        </CreateAt>
+      </FirstRank >
+      <RankList></RankList>
+    </>
+  )
+
 };
 
 export default Ranking;
