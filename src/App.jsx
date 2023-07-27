@@ -10,12 +10,13 @@ import Board from "./pages/Board";
 import LoginForm from "./pages/LoginForm";
 import SignupForm from "./pages/SignupForm";
 import Members from "./pages/Members";
-import AuthContext from "./context/AuthContext";
+import MemberUpdateForm from "./components/common/MemberUpdateForm";
+
 
 
 function App() {
   //로그인여부 전역상태설정함
-  const authContextValue = useContext(AuthContext)
+
 
   const router = [
     { path: "/", element: <Home /> },
@@ -30,6 +31,10 @@ function App() {
     {
       path: "/members",
       element: <Members />,
+    },
+    {
+      path: "/memberupdate",
+      element: <MemberUpdateForm />,
     },
     {
       path: "/about",
