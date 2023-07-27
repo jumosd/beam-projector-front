@@ -4,12 +4,12 @@ import styled from "styled-components";
 import fistgrade from "../assets/first-grade.png"
 import { useEffect, useContext } from "react";
 import axios from "axios";
-import AuthContext from "../context/AuthContext";
+
 
 
 
 const Ranking = () => {
-  const authContextValue = useContext(AuthContext);
+
 
 
   useEffect(
