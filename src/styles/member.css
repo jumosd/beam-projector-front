@@ -13,10 +13,18 @@
 .members-info__description {
   font-size: 1.5rem;
   font-weight: bold;
+  background-color: rgb(255, 255, 240);
+  outline: none;
+  border: none;
 }
 
 .member-Update__button {
   margin-top: 4rem;
   font-size: 25px;
   font-weight: bold;
+  cursor: pointer;
+}
+
+.member-Update__button:hover {
+  color: rgb(15, 78, 189);
 }

@@ -1,46 +1,98 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
+import axios from 'axios';
+
 
 const MemberUpdateForm = () => {
+
+    const nameRef = useRef('')
+    const nickNameRef = useRef('')
+    const emailRef = useRef('')
+    const submitRef = useRef(null)
+
     //이미지 업로드 하기구현중
-    const fileInputRef = useRef(null);
+    const [selectedFile, setSelectedFile] = useState('https://i.ytimg.com/vi/yjdT05m8CqQ/maxresdefault.jpg')
+    const fileInputRef = useRef(selectedFile);
     const ProfileImageUpload = () => {
         fileInputRef.current.click()
     }
-    const handleFileChange = (e) => {
-        console.log(e.target.files[0])
+
+    const handleFileChange = (event) => {
+        setSelectedFile(URL.createObjectURL(event.target.files[0]));
+        console.log(selectedFile)
+        console.log(fileInputRef)
+        console.log(fileInputRef.current)
+        console.log(fileInputRef.current.files[0])
+
     }
+
+    const submitClick = () => {
+        submitRef.current.click()
+    }
+    // 폼 제출 처리 함수
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+
+
+        console.log(nameRef.current.value)
+        // 서버로 전송할 폼 데이터를 만듭니다.
+        const formData = new FormData();
+        formData.append('name', nameRef.current.value);
+        formData.append('nickName', nickNameRef.current.value);
+        formData.append('email', emailRef.current.value);
+        formData.append('profileImageUrl', fileInputRef.current.files[0]);
+
+        axios.put('/members', formData)
+            .then(response => {
+                console.log('Form submitted successfully!', response);
+                navigator('/members')
+                // 서버로부터 응답을 받으면 필요한 처리를 추가할 수 있습니다.
+            })
+            .catch(error => {
+                console.error('Error submitting form:', error);
+                console.log("응 안되쥬?")
+                // 오류 발생 시 처리를 추가할 수 있습니다.
+            })
+
+    };
 
 
     return (
         <>
             <MemberBox>
+
                 <div>
-                    <MemberImage src='https://i.ytimg.com/vi/yjdT05m8CqQ/maxresdefault.jpg' />
+                    <MemberImage src={selectedFile} />
                     <input type="file" name="image" id="image" style={{ display: "none" }} ref={fileInputRef} onChange={handleFileChange} />
                     <SettingIcon onClick={ProfileImageUpload} src='src/assets/setting.svg' />
                 </div>
                 <div>
                     <div className='members-info'>
-                        <div className='members-info__title'>이름</div>
-                        <div className='members-info__description'>하진수</div>
+                        <label htmlFor='name' className='members-info__title'>이름</label>
+                        <input ref={nameRef} name='name' id='name' className='members-info__description' placeholder='이름을 입력해주세요'></input>
                     </div>
+
+
                     <div className='members-info'>
-                        <div className='members-info__title'>닉네임</div>
-                        <div className='members-info__description'>하방방ㅇ.{'<'}</div>
+                        <label htmlFor='nickName' className='members-info__title'>닉네임</label>
+                        <input ref={nickNameRef} name='nickName' id='nickName' className='members-info__description' placeholder='닉네임을 입력해주세요'></input>
                     </div>
+
                     <div className='members-info'>
-                        <div className='members-info__title'>이메일</div>
-                        <div className='members-info__description'>jumosd@icloud.com</div>
+                        <label htmlFor='email' className='members-info__title'>이메일</label>
+                        <input ref={emailRef} name='email' id='email' className='members-info__description' placeholder='이메일을 입력해주세요'></input>
                     </div>
+
                 </div>
+                <input ref={submitRef} id='submit' type='submit' style={{ display: 'none' }} onClick={handleFormSubmit} />
             </MemberBox >
 
             <ButtonBox >
-                <div className='member-Update__button'><Link to={'/memberupdate'}>수정하기</Link></div>
-                <div className='member-Update__button'><Link to={'/memberupdate'}>탈퇴하기</Link></div>
+                <div className='member-Update__button' onClick={submitClick}>수정하기</div>
+                <div className='member-Update__button'>탈퇴하기</div>
             </ButtonBox>
+
         </>
     );
 };
@@ -48,7 +100,7 @@ const MemberUpdateForm = () => {
 export default MemberUpdateForm;
 
 
-const MemberBox = styled.div`
+const MemberBox = styled.form`
     display: flex;
     justify-content: center;
     align-items: center;
