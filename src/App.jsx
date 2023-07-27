@@ -10,13 +10,8 @@ import Board from "./pages/Board";
 import LoginForm from "./pages/LoginForm";
 import SignupForm from "./pages/SignupForm";
 import Members from "./pages/Members";
-import AuthContext from "./context/AuthContext";
-
 
 function App() {
-  //로그인여부 전역상태설정함
-  const authContextValue = useContext(AuthContext)
-
   const router = [
     { path: "/", element: <Home /> },
     {
@@ -25,7 +20,7 @@ function App() {
     },
     {
       path: "/signup",
-      element: <SignupForm />
+      element: <SignupForm />,
     },
     {
       path: "/members",
@@ -43,7 +38,6 @@ function App() {
       path: "/ranking",
       element: <Ranking />,
     },
-
   ];
   //로그인이 되었을때만 UI를 보고 접근가능하게 하기
   return (
