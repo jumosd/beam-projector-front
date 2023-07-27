@@ -2,12 +2,12 @@ import React, { useState, useRef, useContext } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import AuthContext from "../context/AuthContext";
+
 
 
 function LoginForm() {
 
-  const authContextValue = useContext(AuthContext)
+
 
   const navigate = useNavigate()
 
