@@ -2,17 +2,21 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 
 import "../styles/Signup.css";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 function SignupForm() {
 
 
   //회원가입폼
   const [signupForm, setSignupForm] = useState({
-    id: '',
-    name: '',
+    memberId: '',
     email: '',
+    name: '',
+    nickName: '',
     password: '',
-    passwordconfirm: ''
+    passwordconfirm: '',
+    profileImageUrl: ''
   })
   //유효성 체크
   const [isEmpty, setIsEmpty] = useState(false)
@@ -32,6 +36,7 @@ function SignupForm() {
   //ref들
   const idRef = useRef()
   const nameRef = useRef()
+  const nickNameRef = useRef()
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
@@ -50,23 +55,59 @@ function SignupForm() {
   }
 
 
+
+  // 로그인 요청 하기
+
   const Clickkkk = () => {
-    if (signupForm.id.trim() === '' ||
+    if (signupForm.memberId.trim() === '' ||
       signupForm.name.trim() === '' ||
+      signupForm.nickName.trim() === '' ||
       signupForm.password.trim() === '' ||
       signupForm.passwordconfirm.trim() === '' ||
       signupForm.email.trim() === '') {
       setIsEmpty(true)
-      setTimeout(oneSecoundSleep, 2000)
+      setTimeout(oneSecoundSleep, 1000)
     }
 
     const pattern = /[~!@#$%^&*()_+|<>?:{}]/;	// 특수문자
     console.log(pattern.test(signupForm.password))
     if (signupForm.password.length < 2 || !pattern.test(signupForm.password)) {
       setIsPasswordCheck(true)
-      setTimeout(oneSecoundSleep, 2000)
+      setTimeout(oneSecoundSleep, 1000)
     }
 
+
+
+    axios.post('/signup', {
+      memberId: idRef.current.value,
+      name: nameRef.current.value,
+      nickName: nickNameRef.current.vvalue,
+      password: passwordRef.current.value,
+      profileImageUrl: ''
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }
+    ).then((response) => {
+      console.log(response.data)
+
+      navigate("/login")
+
+
+    }).catch(function (error) {
+      // 에러 핸들링
+      console.log(error.response.status);
+
+      if (error.errorCode === "DUPLICATED_MEMBER_EMAIL") {
+        alert("중복된 이메일입니다")
+      } else if (error.errorCode === "DUPLICATED_MEMBER_NICKNAME") {
+        alert("중복된 닉네임입니다")
+      } else if (error.errorCode === "DUPLICATED_MEMBER_ID") {
+        alert("중복된 아이디입니다")
+      }
+
+    })
   }
 
   // 렌더링될부분 //
@@ -92,6 +133,12 @@ function SignupForm() {
           </InputBox>
 
           <InputBox>
+            <Label htmlFor="input_nickName">닉네임<Required>*</Required></Label>
+            <Input type="text" ref={nickNameRef} id="input_name" onChange={() => inputHandler(nameRef, "nickName")}></Input>
+            <InputRightSpace></InputRightSpace>
+          </InputBox>
+
+          <InputBox>
             <Label htmlFor="input_email">이메일<Required>*</Required></Label>
             <Input type="email" ref={emailRef} id="input_email" onChange={() => inputHandler(emailRef, "email")}></Input>
             <InputRightSpace></InputRightSpace>
@@ -110,7 +157,9 @@ function SignupForm() {
           </InputBox>
 
           <InputBox>
-            <GoBackButton>뒤로가기</GoBackButton>
+            <Link to={'/login'}>
+              <GoBackButton>뒤로가기</GoBackButton>
+            </Link>
             <SingupButton onClick={Clickkkk}>회원가입</SingupButton>
           </InputBox>
 
