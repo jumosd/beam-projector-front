@@ -8,6 +8,9 @@ import About from "./pages/About";
 import Board from "./pages/Board";
 import CreatePost from "./pages/CreatePost";
 import useWatchLocation from "./hooks/useWatchLocation";
+import LoginForm from "./pages/LoginForm";
+import SignupForm from "./pages/SignupForm";
+import Members from "./pages/Members";
 
 function App() {
   const watchState = useWatchLocation("/board/create");
@@ -16,11 +19,15 @@ function App() {
     { path: "/", element: <Home /> },
     {
       path: "/login",
-      // element: <Login />,
+      element: <LoginForm />,
     },
     {
       path: "/signup",
-      // element: <Signup />
+      element: <SignupForm />,
+    },
+    {
+      path: "/members",
+      element: <Members />,
     },
     {
       path: "/about",
@@ -39,7 +46,7 @@ function App() {
       element: <Ranking />,
     },
   ];
-
+  //로그인이 되었을때만 UI를 보고 접근가능하게 하기
   return (
     <>
       <Main>

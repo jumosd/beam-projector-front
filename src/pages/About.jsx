@@ -42,7 +42,7 @@ const IntroP = styled.p`
   text-align: center;
   font-size: 20px;
   line-height: 1.8;
-  font-weight 300;
+  font-weight: 300;
   letter-spacing: -0.03em;
   color: #353535;
 `;
