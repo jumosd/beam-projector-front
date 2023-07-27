@@ -6,8 +6,12 @@ import Ranking from "./pages/Ranking";
 import Main from "./components/Main/Main";
 import About from "./pages/About";
 import Board from "./pages/Board";
+import CreatePost from "./pages/CreatePost";
+import useWatchLocation from "./hooks/useWatchLocation";
 
 function App() {
+  const watchState = useWatchLocation("/board/create");
+
   const router = [
     { path: "/", element: <Home /> },
     {
@@ -27,6 +31,10 @@ function App() {
       element: <Board />,
     },
     {
+      path: "/board/create",
+      element: <CreatePost />,
+    },
+    {
       path: "/ranking",
       element: <Ranking />,
     },
@@ -34,8 +42,8 @@ function App() {
 
   return (
     <>
-      <Header />
       <Main>
+        {!watchState && <Header />}
         <Routes>
           {router.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />
