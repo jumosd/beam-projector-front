@@ -63,7 +63,7 @@ const Members = () => {
                 </div>
             </MemberBox >
             <div className='member-Update__button'>
-                <Link to={'/memberupdate'}>회원 정보 수정하기</Link>
+                <Link to={'/memberupdate'} memberInfo={memberInfo} >회원 정보 수정하기</Link>
             </div>
 
 
