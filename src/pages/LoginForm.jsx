@@ -87,21 +87,21 @@ function LoginForm() {
             {!idFocus ?
               <InputIconIdDiv>
                 <InputIconImage src="/src/assets/user.svg"></InputIconImage>
-                <InputIconText>ID</InputIconText>
+                <InputIconText htmlFor="id">ID</InputIconText>
               </InputIconIdDiv> : ''
             }
 
-            <Input ref={idRef} onFocus={inputIdFocus} onBlur={inputIdBlur} />
+            <Input name="id" id="id" ref={idRef} onFocus={inputIdFocus} onBlur={inputIdBlur} />
           </FlexDiv>
 
           <FlexDiv>
             {passwordfocus === false ?
               <InputIconPassWordDiv>
                 <InputIconImage src="/src/assets/lock.svg"></InputIconImage>
-                <InputIconText>password</InputIconText>
+                <InputIconText htmlFor="password">password</InputIconText>
               </InputIconPassWordDiv> : ''
             }
-            <Input ref={passwordRef} type="password" onFocus={inputPassWordFocus} onBlur={inputPassWordBlur} />
+            <Input name="password" id="password" ref={passwordRef} type="password" onFocus={inputPassWordFocus} onBlur={inputPassWordBlur} />
           </FlexDiv>
 
           <ForgetIdPassword>
@@ -257,7 +257,7 @@ justify-content: center;
 align-items: center;
 `
 
-const InputIconText = styled.div`
+const InputIconText = styled.label`
   font-size: 1rem;
 `
 
