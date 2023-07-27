@@ -1,0 +1,22 @@
+.members-info {
+  width: 300px;
+  height: 70px;
+  margin-top: 10px;
+  background-color: rgb(255, 255, 240);
+  border-radius: 15px;
+  padding: 10px 20px;
+}
+.members-info__title {
+  font-size: 1.3rem;
+}
+
+.members-info__description {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.member-Update__button {
+  margin-top: 4rem;
+  font-size: 25px;
+  font-weight: bold;
+}
