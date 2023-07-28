@@ -16,9 +16,8 @@ const Members = () => {
         }
     )
     const jwtToken = localStorage.getItem('access_token')
-
     const parseToken = JSON.parse(jwtToken)
-    console.log('')
+
     const 회원정보조회 = () => {
         axios.get('http://43.202.4.184:8080/members/',
             {
