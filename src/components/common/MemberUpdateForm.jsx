@@ -2,9 +2,28 @@ import React, { useState, useRef, } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import axios from 'axios';
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+
+
+
+
+// uploadBytes(storageRef, file).then((snapshot) => {
+//     console.log('Uploaded a blob or file!');
+// });
+
+
+
+
+
 
 
 const MemberUpdateForm = () => {
+    const storage = getStorage();
+    const storageRef = ref(storage, '/image');
+
+    // 'file' comes from the Blob or File API
+
+
 
     const navigator = useNavigate()
     const nameRef = useRef('')
@@ -20,7 +39,13 @@ const MemberUpdateForm = () => {
     }
 
     const handleFileChange = (event) => {
+        //선택한파일을 URL로만들어서 브라우저에 띄워주기위함
         setSelectedFile(URL.createObjectURL(event.target.files[0]));
+        // 업로드바이트() 로 파이어베이스 스토리지에 업로드함
+        uploadBytes(storageRef, event.target.files[0])
+            .then((snapshot) => {
+                console.log('업로드 되쥬?');
+            });
     }
     //UI때문에 제출버튼을 숨겨놧음 이걸로 클릭함
     const submitClick = () => {
@@ -85,7 +110,7 @@ const MemberUpdateForm = () => {
                 <div>
                     <MemberImage src={selectedFile} />
                     <input type="file" name="image" id="image" style={{ display: "none" }} ref={fileInputRef} onChange={handleFileChange} />
-                    <SettingIcon onClick={ProfileImageUpload} src='src/assets/setting.svg' />
+                    <SettingIcon onClick={ProfileImageUpload} src="src/assets/setting.svg" />
                 </div>
                 <div>
                     <div className='members-info'>
