@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import "/src/styles/member.css"
@@ -8,21 +8,22 @@ const Members = () => {
 
     const [memberInfo, setMemberInfo] = useState(
         {
-            memberId: "test123123",
-            email: "test12348@naver.com",
-            name: "테스트",
-            nickName: "테스트닉네임",
+            memberId: "",
+            email: "",
+            name: "",
+            nickName: "",
             profileImageUrl: ""
         }
     )
     const jwtToken = localStorage.getItem('access_token')
 
-
+    const parseToken = JSON.parse(jwtToken)
+    console.log('')
     const 회원정보조회 = () => {
-        axios.get('members',
+        axios.get('http://43.202.4.184:8080/members/',
             {
                 headers: {
-                    'Authorization': `Bearer ${jwtToken}`
+                    'Authorization': `Bearer ${parseToken}`
                 }
             })
             .then(response => {
@@ -37,9 +38,16 @@ const Members = () => {
                     nickName: response.data["nickName"],
                     profileImageUrl: response.data["profileImageUrl"],
                 })
+            }).catch((error) => {
+
+                console.log("에러")
+                console.log(error)
             })
     }
 
+    useEffect(() => {
+        회원정보조회()
+    }, [])
     return (
         <>
             <MemberBox>
@@ -50,20 +58,20 @@ const Members = () => {
                 <div style={{ marginLeft: '40px' }}>
                     <div className='members-info'>
                         <div className='members-info__title'>이름</div>
-                        <div className='members-info__description'>하진수</div>
+                        <div className='members-info__description'>{memberInfo.name}</div>
                     </div>
                     <div className='members-info'>
                         <div className='members-info__title'>닉네임</div>
-                        <div className='members-info__description'>하방방ㅇ.{'<'}</div>
+                        <div className='members-info__description'>{memberInfo.nickName}</div>
                     </div>
                     <div className='members-info'>
                         <div className='members-info__title'>이메일</div>
-                        <div className='members-info__description'>jumosd@icloud.com</div>
+                        <div className='members-info__description'>{memberInfo.email}</div>
                     </div>
                 </div>
             </MemberBox >
             <div className='member-Update__button'>
-                <Link to={'/memberupdate'} memberInfo={memberInfo} >회원 정보 수정하기</Link>
+                <Link to={'/memberupdate'}  >회원 정보 수정하기</Link>
             </div>
 
 
