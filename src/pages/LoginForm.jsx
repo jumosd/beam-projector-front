@@ -12,11 +12,6 @@ function LoginForm() {
   const [passwordfocus, setPassWordFocus] = useState(false);
 
 
-  const navigate = useNavigate()
-
-  const [idFocus, setIdFocus] = useState(false)
-  const [passwordfocus, setPassWordFocus] = useState(false)
-
 
   //아이디인풋창을 클릭하면 아이콘사라지게하기
   const inputIdFocus = () => setIdFocus(true);
