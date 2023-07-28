@@ -48,10 +48,7 @@ function LoginForm() {
 
   // 로그인요청하기
   const Login = () => {
-    console.log(idRef.current.value)
-    console.log(passwordRef.current.value)
-
-    axios.post('/login', {
+    axios.post('http://43.202.4.184:8080/login', {
       memberId: idRef.current.value,
       password: passwordRef.current.value,
     }, {
@@ -59,15 +56,12 @@ function LoginForm() {
         "Content-Type": "application/json",
       }
     }
-    )
-      .then(function (response) {
-        console.log(response);
-        localStorage.setItem('access_token', response.data.token)
-        navigate("/")
+    ).then(function (response) {
+      localStorage.setItem('access_token', JSON.stringify(response.data))
+      navigate("/")
 
-        authContextValue.isLoggedin = true
-        console.log('로그인폼에서 ', authContextValue.isLoggedin)
-      })
+      authContextValue.isLoggedin = true
+    })
       .catch(function (error) {
         console.log(error);
       });
