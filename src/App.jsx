@@ -11,8 +11,8 @@ import LoginForm from "./pages/LoginForm";
 import SignupForm from "./pages/SignupForm";
 import Members from "./pages/Members";
 import Post from "./pages/Post";
-
 import MemberUpdateForm from "./components/common/MemberUpdateForm";
+import './firebase'
 
 
 
