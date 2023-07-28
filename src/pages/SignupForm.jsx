@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-
 import "../styles/Signup.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -59,45 +58,43 @@ function SignupForm() {
   // 로그인 요청 하기
 
   const Clickkkk = () => {
-    if (signupForm.memberId.trim() === '' ||
-      signupForm.name.trim() === '' ||
-      signupForm.nickName.trim() === '' ||
-      signupForm.password.trim() === '' ||
-      signupForm.passwordconfirm.trim() === '' ||
-      signupForm.email.trim() === '') {
-      setIsEmpty(true)
-      setTimeout(oneSecoundSleep, 1000)
-    }
+    // if (signupForm.memberId.trim() === '' ||
+    //   signupForm.name.trim() === '' ||
+    //   signupForm.nickName.trim() === '' ||
+    //   signupForm.password.trim() === '' ||
+    //   signupForm.passwordconfirm.trim() === '' ||
+    //   signupForm.email.trim() === '') {
+    //   setIsEmpty(true)
+    //   setTimeout(oneSecoundSleep, 1000)
+    // }
 
     const pattern = /[~!@#$%^&*()_+|<>?:{}]/;	// 특수문자
-    console.log(pattern.test(signupForm.password))
+
     if (signupForm.password.length < 2 || !pattern.test(signupForm.password)) {
       setIsPasswordCheck(true)
       setTimeout(oneSecoundSleep, 1000)
     }
 
+    axios.post('http://43.202.4.184:8080/signup', {
 
-
-    axios.post('/signup', {
       memberId: idRef.current.value,
-      name: nameRef.current.value,
-      nickName: nickNameRef.current.vvalue,
+      email: emailRef.current.value,
       password: passwordRef.current.value,
+      name: nameRef.current.value,
+      nickName: nickNameRef.current.value,
       profileImageUrl: ''
+
     }, {
       headers: {
         "Content-Type": "application/json",
       }
-    }
-    ).then((response) => {
+    }).then((response) => {
       console.log(response.data)
-
-      navigate("/login")
-
+      window.location.pathname = '/login'
 
     }).catch(function (error) {
       // 에러 핸들링
-      console.log(error.response.status);
+      console.log(error);
 
       if (error.errorCode === "DUPLICATED_MEMBER_EMAIL") {
         alert("중복된 이메일입니다")
@@ -108,7 +105,7 @@ function SignupForm() {
       }
 
     })
-  }
+  };
 
   // 렌더링될부분 //
   return (
@@ -121,7 +118,7 @@ function SignupForm() {
           {isPassswordCheck === true ? <IsValidDiv>비밀번호를 다시 입력해주세요</IsValidDiv> : null}
           <InputBox>
             <Label htmlFor="input_id">아이디<Required>*</Required></Label>
-            <Input type="text" ref={idRef} id="input_id" onChange={(e) => inputHandler(idRef, "id")}></Input>
+            <Input type="text" ref={idRef} id="input_id" onChange={() => inputHandler(idRef, "id")}></Input>
             <InputRightSpace>(영문소문자/숫자,4~16자)</InputRightSpace>
           </InputBox>
 
