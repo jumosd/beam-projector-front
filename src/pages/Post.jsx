@@ -4,20 +4,21 @@ import { IoPlayBackOutline } from "react-icons/io5";
 import { CgPacman } from "react-icons/cg";
 import { BsEye } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Comment from "../components/Comment/Comment";
+import { axiosClient } from "../api/axiosClients";
 
 const tmp =
   "<p>아아아아아아 너무 힘드러</p><p><br></p><p><strong>ㅠㅠㅠㅠ</strong></p><p><em><u>asdasdasdasd</u></em></p><p><strong><em><u>살려주세요</u></em></strong></p>";
 
 const Post = () => {
   const navigate = useNavigate();
-  const params = useParams();
+  const { id } = useParams();
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([
     {
       memberNum: 1, // 토큰에서 memberNum 가져와야한다.
-      boardNum: params.id,
+      boardNum: id,
       commentNum: 1,
       nickName: "프론트엔드 마스터",
       comments: "댓글 테스트",
@@ -28,6 +29,15 @@ const Post = () => {
   const moveToBack = () => {
     navigate(-1);
   };
+
+  useEffect(() => {
+    axiosClient
+      .get(`/api/comments?boardNum=${id}`)
+      .then((res) => {
+        console.log(res.json());
+      })
+      .catch(console.log);
+  }, []);
 
   return (
     <>
@@ -77,7 +87,12 @@ const Post = () => {
         </CommentWrapper>
         <CommentLists>
           {comments.map(({ commentNum, ...rest }) => (
-            <Comment key={commentNum} {...rest} />
+            <Comment
+              key={commentNum}
+              commentNum={commentNum}
+              boardNum={id}
+              {...rest}
+            />
           ))}
         </CommentLists>
       </Layout>

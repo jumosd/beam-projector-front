@@ -1,12 +1,20 @@
 import { useState } from "react";
 import { styled } from "styled-components";
 import icon from "../../assets/stick.gif";
+import { axiosClient } from "../../api/axiosClients";
 
-const Comment = ({ nickName, comments, createAt }) => {
+const Comment = ({ commentNum, boardNum, nickName, comments, createAt }) => {
   const [mode, setMode] = useState(true);
   const [comment, setComment] = useState(comments);
 
-  const commentFix = () => {};
+  const commentFix = () => {
+    axiosClient.put("/api/comments", {
+      commentNum,
+      boardNum,
+      comments: comment,
+    });
+    setMode(true);
+  };
 
   return (
     <CommentList>
@@ -19,19 +27,19 @@ const Comment = ({ nickName, comments, createAt }) => {
           </UserWrapper>
         </ProfileWrapper>
         <BtnWrapper>
-          <CommentBtn onClick={() => setMode(true)}>수정</CommentBtn>
+          <CommentBtn onClick={() => setMode(false)}>수정</CommentBtn>
           <CommentBtn>삭제</CommentBtn>
         </BtnWrapper>
       </CommentHeader>
-      {mode ? (
+      {!mode ? (
         <FixWrapper>
           <CommentFixInput
             value={comment}
             onChange={({ target }) => setComment(target.value)}
           />
           <FixModeBtnWrapper>
-            <ModeBtn>수정 완료</ModeBtn>
-            <ModeBtn active={"false"} onClick={() => setMode(false)}>
+            <ModeBtn onClick={() => commentFix()}>수정 완료</ModeBtn>
+            <ModeBtn active={"false"} onClick={() => setMode(true)}>
               취소
             </ModeBtn>
           </FixModeBtnWrapper>
