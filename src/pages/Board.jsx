@@ -11,11 +11,16 @@ const Board = () => {
     navigate("/board/create");
   };
 
+  const moveToPostDetail = () => {
+    navigate("/board/1");
+    console.log("asd");
+  };
+
   return (
     <>
       <Title>Board</Title>
       <ListWrapper>
-        <BoardCard />
+        <BoardCard onClick={() => moveToPostDetail()} />
         <BoardCard />
         <BoardCard />
         <BoardCard />

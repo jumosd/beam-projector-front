@@ -22,7 +22,7 @@ const Header = () => {
         </NavUl>
       </CenterNav>
       <NavIcons>
-        <NavIcon >
+        <NavIcon>
           <Link to="/members">
             <svg
               xmlns="http://www.w3.org/2000/svg"

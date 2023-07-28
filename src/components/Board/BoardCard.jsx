@@ -4,9 +4,9 @@ import Heart from "../../assets/heart.svg";
 import Logo from "../../assets/projet-logo2.svg";
 import StackIcon from "./StackIcon";
 
-const BoardCard = () => {
+const BoardCard = ({ onClick }) => {
   return (
-    <CardList>
+    <CardList onClick={onClick}>
       <CategoryWrapper>
         <CategoryIcon src={Folder} />
         <LogoImg src={Logo} />
