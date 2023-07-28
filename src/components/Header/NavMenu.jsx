@@ -1,9 +1,12 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import useWatchLocation from "../../hooks/useWatchLocation";
 
 const NavMenu = ({ children, path }) => {
+  const watchState = useWatchLocation(path);
+
   return (
-    <NavList to={path}>
+    <NavList to={path} watchstate={`${watchState}`}>
       <li>{children}</li>
     </NavList>
   );
@@ -18,6 +21,6 @@ const NavList = styled(NavLink)`
   cursor: pointer;
 
   &.active {
-    font-weight: bold;
+    font-weight: ${({ watchstate }) => watchstate === "true" && "bold"};
   }
 `;

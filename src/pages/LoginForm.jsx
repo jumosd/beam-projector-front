@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import { useState, useRef } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -6,7 +6,10 @@ import axios from 'axios';
 
 
 function LoginForm() {
+  const navigate = useNavigate();
 
+  const [idFocus, setIdFocus] = useState(false);
+  const [passwordfocus, setPassWordFocus] = useState(false);
 
 
   const navigate = useNavigate()
@@ -16,35 +19,33 @@ function LoginForm() {
 
 
   //아이디인풋창을 클릭하면 아이콘사라지게하기
-  const inputIdFocus = () => setIdFocus(true)
+  const inputIdFocus = () => setIdFocus(true);
   const inputIdBlur = () => {
-    if (idRef.current.value === '') {
-      setIdFocus(false)
+    if (idRef.current.value === "") {
+      setIdFocus(false);
     } else {
-      setIdFocus(true)
+      setIdFocus(true);
     }
-  }
+  };
 
   //패스워드인풋창을 클릭하면 아이콘 사라지게 하기
-  const inputPassWordFocus = () => setPassWordFocus(true)
+  const inputPassWordFocus = () => setPassWordFocus(true);
   const inputPassWordBlur = () => {
-    if (passwordRef.current.value === '') {
-      setPassWordFocus(false)
+    if (passwordRef.current.value === "") {
+      setPassWordFocus(false);
     } else {
-      setPassWordFocus(true)
+      setPassWordFocus(true);
     }
-  }
+  };
 
   //useNavigate
   const goToSignUp = () => {
-    navigate("/signup")
-  }
-
-
+    navigate("/signup");
+  };
 
   //아이디랑 패스워드
-  const idRef = useRef()
-  const passwordRef = useRef()
+  const idRef = useRef();
+  const passwordRef = useRef();
 
   // 로그인요청하기
   const Login = () => {
@@ -60,24 +61,19 @@ function LoginForm() {
       localStorage.setItem('access_token', JSON.stringify(response.data))
       navigate("/")
 
-      authContextValue.isLoggedin = true
+
     })
       .catch(function (error) {
         console.log(error);
       });
-
-  }
-
-
-
+  };
 
   return (
     <>
-      <LoginContainer >
+      <LoginContainer>
         <SignupTitle>LOGIN</SignupTitle>
         <InputBox>
-
-          <FlexDiv >
+          <FlexDiv>
             {!idFocus ?
               <InputIconIdDiv>
                 <InputIconImage src="/src/assets/user.svg"></InputIconImage>
@@ -115,156 +111,148 @@ function LoginForm() {
             <SignUpButton onClick={goToSignUp}>회원가입</SignUpButton>
           </GoToSignUpDiv>
         </InputBox>
-      </LoginContainer >
+      </LoginContainer>
     </>
-  )
-
+  );
 }
 export default LoginForm;
 
-
-
 const LoginContainer = styled.div`
-    margin: auto;
-    width: 1200px;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    `
+  margin: auto;
+  width: 1200px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 const SignupTitle = styled.div`
-    margin: 2rem 0;
-    font-size: 2rem;
-    font-weight: 400;
-
-    `
+  margin: 2rem 0;
+  font-size: 2rem;
+  font-weight: 400;
+`;
 
 const InputBox = styled.div`
-    display: flex;
-    flex-direction:column;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-    height: auto;
-    padding: 1rem 1rem 2rem 1rem;
-    border-bottom: 1px solid #cfcfcf;
-    `
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: auto;
+  padding: 1rem 1rem 2rem 1rem;
+  border-bottom: 1px solid #cfcfcf;
+`;
 
 const Input = styled.input`
-    width: 450px;
-    height: 50px;
-    border: 1px solid #cfcfcf;
-    `
+  width: 450px;
+  height: 50px;
+  border: 1px solid #cfcfcf;
+`;
 const Label = styled.label`
-    width: 100px;
-    `
+  width: 100px;
+`;
 const InputRightSpace = styled.div`
-    width: 200px;
-    `
+  width: 200px;
+`;
 
 const Required = styled.span`
-    color: red;
-    `
+  color: red;
+`;
 const GoBackButton = styled.button`
-    font-size: 1.3rem;
-    margin-top: 1rem;
-    width: 200px;
-    padding: 0.6rem;
-    border: 1px solid #cfcfcf;
-    background-color: white;
-    `
+  font-size: 1.3rem;
+  margin-top: 1rem;
+  width: 200px;
+  padding: 0.6rem;
+  border: 1px solid #cfcfcf;
+  background-color: white;
+`;
 
 const LoginButton = styled.button`
-    font-size: 1.5rem;
-    margin-top: 1rem;
-    width: 450px;
-    padding: 0.6rem;
-    color: white;
-    background-color: #000000;
-    transition: all 0.1s ease-out; ;
-  &:hover{
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  width: 450px;
+  padding: 0.6rem;
+  color: white;
+  background-color: #000000;
+  transition: all 0.1s ease-out;
+  &:hover {
     scale: 1.1;
   }
-  `
+`;
 const SignUpButton = styled.button`
-font-size: 1.5rem;
-margin-top: 1rem;
-width: 450px;
-height: 100px;
-padding: 0.6rem;
-color: #000000;
-background-color: #f6f6f6;
-transition: all 0.1s ease-out; ;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  width: 450px;
+  height: 100px;
+  padding: 0.6rem;
+  color: #000000;
+  background-color: #f6f6f6;
+  transition: all 0.1s ease-out;
 
-&:hover{
-scale: 1.1;
-}
-`
+  &:hover {
+    scale: 1.1;
+  }
+`;
 
 const GoToSignUpDiv = styled.div`
-text-align: center;
-font-size: 1.5rem;
-margin-top: 1rem;
-width: 450px;
-height: 150px;
-padding: 0.6rem;
-color: #000000;
-background-color: #ffffff;
-transition: all 0.1s ease-out; ;
-
-`
-
-
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  width: 450px;
+  height: 150px;
+  padding: 0.6rem;
+  color: #000000;
+  background-color: #ffffff;
+  transition: all 0.1s ease-out;
+`;
 
 const FlexDiv = styled.div`
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2rem;
-    `
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+`;
 const ForgetIdPassword = styled.div`
-width: 450px;
-margin: auto;
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-top: 2rem;
-`
+  width: 450px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+`;
 const InputIconIdDiv = styled.div`
-width: 0px;
-position: relative;
-left: 40px;
-margin: auto;
-display: flex;
-justify-content: center;
-align-items: center;
-`
+  width: 0px;
+  position: relative;
+  left: 40px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const InputIconPassWordDiv = styled.div`
-width: 0px;
-position: relative;
-left: 60px;
-margin: auto;
-display: flex;
-justify-content: center;
-align-items: center;
-`
+  width: 0px;
+  position: relative;
+  left: 60px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const InputIconText = styled.label`
   font-size: 1rem;
-`
+`;
 
 const IsValidDiv = styled.div`
-    color: #fa8a8a;
-    font-size: 1.5rem;
-    font-weight: 600;
-    `
+  color: #fa8a8a;
+  font-size: 1.5rem;
+  font-weight: 600;
+`;
 
 const InputIconImage = styled.img`
   position: relative;
   width: 40px;
   height: 40px;
   padding: 5px;
-  
-`
+`;

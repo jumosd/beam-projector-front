@@ -17,7 +17,7 @@ const About = () => {
         슈퍼 코딩 프로젝트 동아리 입니다!
         <br /> 프로젝트를 만들면서 경험을 쌓고있습니다.
       </IntroP>
-      <Video onLoadStart="this.volume=0.2" autoPlay loop muted playsInline>
+      <Video autoPlay loop muted playsInline>
         <source src="videos/supercoding-main-video.mp4" type="video/mp4" />
       </Video>
     </>
