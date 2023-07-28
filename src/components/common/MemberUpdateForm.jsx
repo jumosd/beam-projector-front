@@ -2,24 +2,14 @@ import React, { useState, useRef, } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import axios from 'axios';
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-
-
-
-
-// uploadBytes(storageRef, file).then((snapshot) => {
-//     console.log('Uploaded a blob or file!');
-// });
-
-
-
+import { getStorage, ref, uploadBytes, getMetadata, getDownloadURL } from "firebase/storage";
 
 
 
 
 const MemberUpdateForm = () => {
     const storage = getStorage();
-    const storageRef = ref(storage, '/image');
+    const storageRef = ref(storage, '/image테스트');
 
     // 'file' comes from the Blob or File API
 
@@ -33,19 +23,30 @@ const MemberUpdateForm = () => {
 
     //이미지 업로드 하기구현중
     const [selectedFile, setSelectedFile] = useState('https://i.ytimg.com/vi/yjdT05m8CqQ/maxresdefault.jpg')
+    const [imageUrl, setImageUrl] = useState('')
     const fileInputRef = useRef(selectedFile);
     const ProfileImageUpload = () => {
         fileInputRef.current.click()
     }
 
-    const handleFileChange = (event) => {
+    const handleFileChange = async (event) => {
         //선택한파일을 URL로만들어서 브라우저에 띄워주기위함
         setSelectedFile(URL.createObjectURL(event.target.files[0]));
         // 업로드바이트() 로 파이어베이스 스토리지에 업로드함
-        uploadBytes(storageRef, event.target.files[0])
+        await uploadBytes(storageRef, event.target.files[0])
             .then((snapshot) => {
                 console.log('업로드 되쥬?');
+            })
+
+        getDownloadURL(ref(storage, '/image테스트'))
+            .then((url) => {
+                setImageUrl(url)
+                console.log(imageUrl)
             });
+
+
+
+
     }
     //UI때문에 제출버튼을 숨겨놧음 이걸로 클릭함
     const submitClick = () => {
@@ -57,16 +58,16 @@ const MemberUpdateForm = () => {
         const jwtToken = localStorage.getItem('access_token')
         const parseToken = JSON.parse(jwtToken)
 
-        console.log(emailRef.current.value);
-        console.log(nameRef.current.value);
-        console.log(nickNameRef.current.value);
+        console.log(imageUrl)
+
         axios.put('http://43.202.4.184:8080/members/',
 
             {
                 "email": emailRef.current.value,
                 "name": nameRef.current.value,
                 "nickName": nickNameRef.current.value,
-                "profileImageUrl": ""
+                "profileImageUrl": imageUrl
+
             },
 
             {
