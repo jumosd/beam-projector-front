@@ -1,11 +1,12 @@
-import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useRef, } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import axios from 'axios';
 
 
 const MemberUpdateForm = () => {
 
+    const navigator = useNavigate()
     const nameRef = useRef('')
     const nickNameRef = useRef('')
     const emailRef = useRef('')
@@ -20,42 +21,61 @@ const MemberUpdateForm = () => {
 
     const handleFileChange = (event) => {
         setSelectedFile(URL.createObjectURL(event.target.files[0]));
-        console.log(selectedFile)
-        console.log(fileInputRef)
-        console.log(fileInputRef.current)
-        console.log(fileInputRef.current.files[0])
-
     }
-
+    //UI때문에 제출버튼을 숨겨놧음 이걸로 클릭함
     const submitClick = () => {
         submitRef.current.click()
     }
     // 폼 제출 처리 함수
     const handleFormSubmit = (event) => {
         event.preventDefault();
+        const jwtToken = localStorage.getItem('access_token')
+        const parseToken = JSON.parse(jwtToken)
 
+        console.log(emailRef.current.value);
+        console.log(nameRef.current.value);
+        console.log(nickNameRef.current.value);
+        axios.put('http://43.202.4.184:8080/members/',
 
-        console.log(nameRef.current.value)
-        // 서버로 전송할 폼 데이터를 만듭니다.
-        const formData = new FormData();
-        formData.append('name', nameRef.current.value);
-        formData.append('nickName', nickNameRef.current.value);
-        formData.append('email', emailRef.current.value);
-        formData.append('profileImageUrl', fileInputRef.current.files[0]);
+            {
+                "email": emailRef.current.value,
+                "name": nameRef.current.value,
+                "nickName": nickNameRef.current.value,
+                "profileImageUrl": ""
+            },
 
-        axios.put('/members', formData)
+            {
+                headers: {
+                    'Authorization': `Bearer ${parseToken}`,
+                    "Content-Type": "application/json",
+                }
+            })
             .then(response => {
-                console.log('Form submitted successfully!', response);
-                navigator('/members')
-                // 서버로부터 응답을 받으면 필요한 처리를 추가할 수 있습니다.
+                localStorage.removeItem("access_token")
+                navigator('/login')
             })
             .catch(error => {
-                console.error('Error submitting form:', error);
-                console.log("응 안되쥬?")
-                // 오류 발생 시 처리를 추가할 수 있습니다.
+                console.log(error)
             })
 
     };
+
+
+    //탈퇴하기
+    const withdraw = () => {
+        const jwtToken = localStorage.getItem('access_token')
+        const parseToken = JSON.parse(jwtToken)
+
+        axios.delete('http://43.202.4.184:8080/members/', {
+            headers: {
+                'Authorization': `Bearer ${parseToken}`
+            }
+        }).then((response) => {
+            navigator('/login')
+        }).catch((error) => {
+        })
+
+    }
 
 
     return (
@@ -90,7 +110,7 @@ const MemberUpdateForm = () => {
 
             <ButtonBox >
                 <div className='member-Update__button' onClick={submitClick}>수정하기</div>
-                <div className='member-Update__button'>탈퇴하기</div>
+                <div className='member-Update__button' onClick={withdraw} >탈퇴하기</div>
             </ButtonBox>
 
         </>
